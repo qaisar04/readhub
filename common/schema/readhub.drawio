@@ -1,20 +1,35 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.1.1 Chrome/132.0.6834.210 Electron/34.3.3 Safari/537.36" version="26.1.1">
-  <diagram name="Page-1" id="mqx8eBCoxH63VulygPff">
-    <mxGraphModel dx="662" dy="417" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+  <diagram name="service overview" id="mqx8eBCoxH63VulygPff">
+    <mxGraphModel dx="855" dy="538" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="sxceuEu9c13BPBaXSLV--1" value="user-service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="150" y="150" width="160" height="60" as="geometry" />
+        <mxCell id="sxceuEu9c13BPBaXSLV--1" value="user-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="110" y="180" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="sxceuEu9c13BPBaXSLV--2" value="content-service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="360" y="150" width="160" height="60" as="geometry" />
+        <mxCell id="sxceuEu9c13BPBaXSLV--2" value="content-engine-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="110" y="97" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="sxceuEu9c13BPBaXSLV--3" value="search-service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="150" y="240" width="160" height="60" as="geometry" />
+        <mxCell id="sxceuEu9c13BPBaXSLV--3" value="review-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="110" y="258" width="160" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="sxceuEu9c13BPBaXSLV--4" value="recommendation-service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="360" y="240" width="160" height="60" as="geometry" />
+        <mxCell id="sxceuEu9c13BPBaXSLV--4" value="search-service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="110" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="spU3-inQkx81PhjkGPJ8-1" value="— Управление книгами: добавление, обновление, удаление— Хранение метаданных (название, автор, жанр, год, описание)— Загрузка книг и PDF-файлов                                                — Фильтрация по жанру, автору, тегам" style="text;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="280" y="100" width="380" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="spU3-inQkx81PhjkGPJ8-2" value="&lt;h1 style=&quot;forced-color-adjust: none; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; margin-top: 0px;&quot;&gt;Основные задачи микросервиса:&lt;/h1&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="50" width="430" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="spU3-inQkx81PhjkGPJ8-4" value="— Регистрация, аутентификация и авторизация пользователей—  Управление профилем пользователя (имя, аватар, настройки)—  Хранение данных о пользователях и их предпочтениях—  Поддержка OAuth2 или JWT для безопасности&#xa;&#xa;&#xa;&#xa;" style="text;overflow=hidden;rounded=0;align=left;spacing=2;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="280" y="176" width="400" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="spU3-inQkx81PhjkGPJ8-5" value="&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;— Добавление, удаление, редактирование отзывов и оценок&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;— Связь с книгами и пользователями&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;— Подсчет среднего рейтинга книги&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;— Фильтрация и сортировка отзывов (по дате, рейтингу)&lt;/span&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;br&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" vertex="1" parent="1">
+          <mxGeometry x="280" y="253" width="400" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="spU3-inQkx81PhjkGPJ8-6" value="— Поиск книг и отзывов по ключевым словам&#xa;— Поддержка полнотекстового поиска&#xa;— Фильтрация по авторам, тегам, жанрам, рейтингу&#xa;— Автокомплит и предложения при поиске" style="text;whiteSpace=wrap;overflow=hidden;rounded=0;align=left;" vertex="1" parent="1">
+          <mxGeometry x="280" y="335" width="390" height="70" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
