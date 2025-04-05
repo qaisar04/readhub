@@ -1,3 +1,14 @@
 spring:
   application:
     name: content-engine-service
+
+concord:
+  elastic:
+    url:
+    username:
+    password:
+    auto-init: true
+
+    indices:
+      - name:
+        mapping:
