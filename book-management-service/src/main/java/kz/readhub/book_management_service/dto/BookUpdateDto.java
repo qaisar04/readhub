@@ -1,59 +1,47 @@
 package kz.readhub.book_management_service.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import kz.readhub.book_management_service.dto.common.BaseRequestDto;
 import kz.readhub.book_management_service.model.Author;
 import kz.readhub.book_management_service.model.Book;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * DTO for updating existing books.
+ * All fields are optional - only non-null values will be updated.
+ * Extends BaseRequestDto for request tracking and metadata.
+ */
 @Data
-@Builder(toBuilder = true)
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class BookUpdateDto {
+public class BookUpdateDto extends BaseRequestDto {
 
-    @Size(max = 255, message = "Title must not exceed 255 characters")
+    // Basic book information fields (all optional for updates)
     private String title;
-
-    @Size(max = 2000, message = "Description must not exceed 2000 characters")
     private String description;
-
-    @Valid
     private List<Author> authors;
-
     private List<String> tags;
-
     private List<String> categories;
-
-    @Pattern(regexp = "[a-z]{2}", message = "Language must be a 2-letter ISO code")
     private String language;
-
     private LocalDate publicationDate;
-
     private String coverUrl;
-
     private String filePath;
-
-    @Positive(message = "File size must be positive")
     private Long fileSize;
-
-    @Pattern(regexp = "^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$", 
-            message = "Invalid ISBN format")
     private String isbn;
-
     private String publisher;
-
-    @Positive(message = "Page count must be positive")
     private Integer pageCount;
 
+    // Metrics and status fields
     @Min(value = 0, message = "Average rating must be between 0 and 5")
     @Max(value = 5, message = "Average rating must be between 0 and 5")
     private Float averageRating;
@@ -65,4 +53,16 @@ public class BookUpdateDto {
     private Integer downloadCount;
 
     private Book.BookStatus status;
+
+    /**
+     * Checks if any book data fields are provided for update.
+     */
+    public boolean hasUpdates() {
+        return title != null || description != null || authors != null ||
+               tags != null || categories != null || language != null ||
+               publicationDate != null || coverUrl != null || filePath != null ||
+               fileSize != null || isbn != null || publisher != null ||
+               pageCount != null || averageRating != null || reviewCount != null ||
+               downloadCount != null || status != null;
+    }
 }

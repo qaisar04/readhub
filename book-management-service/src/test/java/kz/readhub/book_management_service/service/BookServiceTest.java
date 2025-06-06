@@ -23,7 +23,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -73,7 +72,7 @@ class BookServiceTest {
                 .uploadedBy("test-user")
                 .isbn("978-0123456789")
                 .status(Book.BookStatus.ACTIVE)
-                .averageRating(BigDecimal.valueOf(4.5))
+                .averageRating(4.5)
                 .reviewCount(10)
                 .downloadCount(100)
                 .createdAt(LocalDateTime.now())
@@ -87,13 +86,16 @@ class BookServiceTest {
                         .name("Test Author")
                         .build()))
                 .language("en")
-                .uploadedBy("test-user")
+                .userId("test-user")
+                .filePath("/test/path")
+                .categories(List.of("Test Category"))
                 .isbn("978-0123456789")
                 .build();
 
         testUpdateDto = BookUpdateDto.builder()
                 .title("Updated Title")
                 .description("Updated Description")
+                .userId("test-user")
                 .build();
     }
 

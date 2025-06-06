@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -75,11 +74,11 @@ public class Book {
     @Field("cover_url")
     private String coverUrl;
     
-    @DecimalMin(value = "0.0", message = "Average rating cannot be negative")
-    @DecimalMax(value = "5.0", message = "Average rating cannot exceed 5.0")
+    @Min(value = 0, message = "Average rating cannot be negative")
+    @Max(value = 5, message = "Average rating cannot exceed 5")
     @Field("average_rating")
     @Builder.Default
-    private BigDecimal averageRating = new BigDecimal("0.0");
+    private Double averageRating = 0.0;
     
     @Min(value = 0, message = "Review count cannot be negative")
     @Field("review_count")
@@ -152,7 +151,7 @@ public class Book {
         this.downloadCount = this.downloadCount + 1;
     }
     
-    public void updateRating(BigDecimal newRating, int newReviewCount) {
+    public void updateRating(Double newRating, int newReviewCount) {
         this.averageRating = newRating;
         this.reviewCount = newReviewCount;
     }

@@ -24,7 +24,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -224,7 +223,7 @@ public class BookService {
                 .isbn(getValueOrDefault(updateDto.getIsbn(), existingBook.getIsbn()))
                 .publisher(getValueOrDefault(updateDto.getPublisher(), existingBook.getPublisher()))
                 .pageCount(getValueOrDefault(updateDto.getPageCount(), existingBook.getPageCount()))
-                .averageRating(updateDto.getAverageRating() != null ? BigDecimal.valueOf(updateDto.getAverageRating()) : existingBook.getAverageRating())
+                .averageRating(updateDto.getAverageRating() != null ? updateDto.getAverageRating().doubleValue() : existingBook.getAverageRating())
                 .reviewCount(getValueOrDefault(updateDto.getReviewCount(), existingBook.getReviewCount()))
                 .downloadCount(getValueOrDefault(updateDto.getDownloadCount(), existingBook.getDownloadCount()))
                 .status(getValueOrDefault(updateDto.getStatus(), existingBook.getStatus()))
