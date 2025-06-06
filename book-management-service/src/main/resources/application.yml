@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: book-management-service
+  
+  main:
+    allow-bean-definition-overriding: true
+  
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      write-dates-as-timestamps: false
+  
+  data:
+    mongodb:
+      auto-index-creation: true
+
+server:
+  shutdown: graceful
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    mongo:
+      enabled: true
+
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n"
+  level:
+    kz.readhub: INFO
+    kz.concord: INFO

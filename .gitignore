@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Temporary files ###
+docker-compose.yml
+/docker
+/scripts
