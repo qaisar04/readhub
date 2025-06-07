@@ -1,0 +1,328 @@
+{
+  "namespace": "kz.readhub.book_management_service.avro",
+  "type": "record",
+  "name": "BookEvent",
+  "doc": "Avro schema for book events in ReadHub system",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string",
+      "doc": "Unique event identifier for idempotency and tracking"
+    },
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "INSERT",
+          "UPDATE",
+          "DELETE"
+        ],
+        "doc": "Type of operation that occurred on the book"
+      },
+      "doc": "Type of event that occurred"
+    },
+    {
+      "name": "bookId",
+      "type": "string",
+      "doc": "Book ID for easy filtering and routing"
+    },
+    {
+      "name": "bookData",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "Book",
+          "fields": [
+            {
+              "name": "id",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "authors",
+              "type": {
+                "type": "array",
+                "items": {
+                  "type": "record",
+                  "name": "Author",
+                  "fields": [
+                    {
+                      "name": "id",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    },
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "bio",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    },
+                    {
+                      "name": "email",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    },
+                    {
+                      "name": "profilePictureUrl",
+                      "type": [
+                        "null",
+                        "string"
+                      ],
+                      "default": null
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "tags",
+              "type": [
+                "null",
+                {
+                  "type": "array",
+                  "items": "string"
+                }
+              ],
+              "default": null
+            },
+            {
+              "name": "categories",
+              "type": [
+                "null",
+                {
+                  "type": "array",
+                  "items": "string"
+                }
+              ],
+              "default": null
+            },
+            {
+              "name": "language",
+              "type": "string"
+            },
+            {
+              "name": "publicationDate",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "ISO 8601 date format"
+            },
+            {
+              "name": "uploadedBy",
+              "type": "string"
+            },
+            {
+              "name": "coverUrl",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "averageRating",
+              "type": [
+                "null",
+                "double"
+              ],
+              "default": null
+            },
+            {
+              "name": "reviewCount",
+              "type": [
+                "null",
+                "int"
+              ],
+              "default": null
+            },
+            {
+              "name": "downloadCount",
+              "type": [
+                "null",
+                "int"
+              ],
+              "default": null
+            },
+            {
+              "name": "filePath",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "fileSize",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null
+            },
+            {
+              "name": "isbn",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "publisher",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null
+            },
+            {
+              "name": "pageCount",
+              "type": [
+                "null",
+                "int"
+              ],
+              "default": null
+            },
+            {
+              "name": "status",
+              "type": {
+                "type": "enum",
+                "name": "BookStatus",
+                "symbols": [
+                  "DRAFT",
+                  "ACTIVE",
+                  "INACTIVE",
+                  "ARCHIVED",
+                  "PENDING_APPROVAL",
+                  "DELETED"
+                ]
+              }
+            },
+            {
+              "name": "createdAt",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "ISO 8601 timestamp format"
+            },
+            {
+              "name": "updatedAt",
+              "type": [
+                "null",
+                "string"
+              ],
+              "default": null,
+              "doc": "ISO 8601 timestamp format"
+            },
+            {
+              "name": "version",
+              "type": [
+                "null",
+                "long"
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null,
+      "doc": "Complete book information at the time of the event"
+    },
+    {
+      "name": "previousBookData",
+      "type": [
+        "null",
+        "Book"
+      ],
+      "default": null,
+      "doc": "Previous book data for update events (optional)"
+    },
+    {
+      "name": "triggeredBy",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "User who triggered the event"
+    },
+    {
+      "name": "eventTimestamp",
+      "type": "string",
+      "doc": "Event timestamp in ISO 8601 format"
+    },
+    {
+      "name": "source",
+      "type": "string",
+      "default": "book-management-service",
+      "doc": "Source service that generated the event"
+    },
+    {
+      "name": "serviceVersion",
+      "type": "string",
+      "default": "1.0.0",
+      "doc": "Service version for compatibility tracking"
+    },
+    {
+      "name": "metadata",
+      "type": [
+        "null",
+        {
+          "type": "map",
+          "values": "string"
+        }
+      ],
+      "default": null,
+      "doc": "Additional metadata or context as key-value pairs"
+    },
+    {
+      "name": "correlationId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Correlation ID for request tracing"
+    },
+    {
+      "name": "schemaVersion",
+      "type": "string",
+      "default": "v1",
+      "doc": "Event schema version for evolution support"
+    }
+  ]
+}

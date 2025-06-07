@@ -1,15 +1,6 @@
 server:
   port: 8084
 
-spring:
-  kafka:
-    producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      properties:
-        spring.json.add.type.headers: true
-
 concord:
   mongo:
     enabled: true
@@ -26,40 +17,21 @@ concord:
     producer:
       enabled: true
       bootstrap-servers: localhost:9092
-      
       serialization:
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        add-type-headers: true
-        properties:
-          spring.json.add.type.headers: true
-      
+        key-serializer: org.apache.kafka.common.serialization.JsonSerializer
+        value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
       retry:
         attempts: 3
         backoff: 1000ms
         max-backoff: 10000ms
         backoff-multiplier: 2.0
         enable-idempotence: true
-        max-in-flight-requests-per-connection: 5
-      
       metrics:
         enabled: true
         prefix: concord.kafka.producer
-        recording-level: 30s
-        tags:
-          application: ${spring.application.name}
-          environment: local
-      
-      tracing:
+      schema-registry:
         enabled: true
-        service-name: ${spring.application.name}
-        sampling-probability: 1.0
-      
-      additional-properties:
-        compression.type: snappy
-        batch.size: 16384
-        linger.ms: 5
-        buffer.memory: 33554432
+        url: http://localhost:8081
 
 logging:
   level:

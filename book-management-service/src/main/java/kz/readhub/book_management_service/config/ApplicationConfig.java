@@ -37,14 +37,6 @@ public class ApplicationConfig {
                 .setFieldMatchingEnabled(true)
                 .setAmbiguityIgnored(true);
         
-        // Add type converter for List<String> to Set<String>
-        mapper.addConverter(context -> {
-            if (context.getSource() == null) {
-                return null;
-            }
-            return Set.copyOf((List<String>) context.getSource());
-        }, List.class, Set.class);
-        
         log.info("ModelMapper configured with strict matching strategy");
         return mapper;
     }

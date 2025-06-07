@@ -3,8 +3,6 @@ package kz.readhub.book_management_service.service;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import kz.readhub.book_management_service.dto.BookCreateDto;
 import kz.readhub.book_management_service.dto.BookUpdateDto;
 import kz.readhub.book_management_service.exception.BookNotFoundException;
@@ -22,10 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
+import reactor.core.scheduler.Schedulers;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -43,10 +40,6 @@ public class BookService {
     private final BookRepository bookRepository;
     private final ModelMapper modelMapper;
     private final KafkaPublisherService kafkaPublisherService;
-    private final BatchBookEventService batchBookEventService;
-
-    private static final int MAX_BATCH_SIZE = 100;
-    private static final Duration TIMEOUT_DURATION = Duration.ofSeconds(30);
 
     /**
      * Creates a new book with validation and event publishing.
@@ -61,6 +54,7 @@ public class BookService {
         return validateIsbnUniqueness(createDto.getIsbn())
                 .then(Mono.fromCallable(() -> mapToNewBook(createDto)))
                 .flatMap(bookRepository::save)
+                .publishOn(Schedulers.boundedElastic())
                 .doOnSuccess(savedBook -> {
                     log.info("Successfully created book with id: {}", savedBook.getId());
                     kafkaPublisherService.publishBookCreatedEvent(savedBook).subscribe();
@@ -179,7 +173,7 @@ public class BookService {
                         .collectList()
                         .doOnSuccess(savedBooks -> {
                             log.info("Successfully created {} books in batch", savedBooks.size());
-                            batchBookEventService.publishBatchBookCreatedEvents(savedBooks).subscribe();
+                            // TODO: Publish batch creation event
                         })
                         .flatMapMany(Flux::fromIterable))
                 .doOnError(error -> log.error("Failed to create books in batch", error));

@@ -48,9 +48,6 @@ class BookServiceTest {
     @Mock
     private KafkaPublisherService kafkaPublisherService;
 
-    @Mock
-    private BatchBookEventService batchBookEventService;
-
     @InjectMocks
     private BookService bookService;
 
