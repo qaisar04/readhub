@@ -15,48 +15,40 @@ public class RouteConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> bookRoutes(BookHandler bookHandler) {
-        return RouterFunctions
-                .route()
-                .path("/api/v1/books", builder -> builder
-                        .POST("",
-                                accept(MediaType.APPLICATION_JSON)
-                                        .and(contentType(MediaType.APPLICATION_JSON)),
-                                bookHandler::createBook)
-                        .GET("/{id}",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getBookById)
-                        .GET("",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getAllBooks)
-                        .PUT("/{id}",
-                                accept(MediaType.APPLICATION_JSON)
-                                        .and(contentType(MediaType.APPLICATION_JSON)),
-                                bookHandler::updateBook)
-                        .DELETE("/{id}",
-                                bookHandler::deleteBook)
-                        .GET("/search",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::searchBooks)
-                        .GET("/by-category",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getBooksByCategory)
-                        .GET("/by-language",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getBooksByLanguage)
-                        .GET("/by-uploader",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getBooksByUploadedBy)
-                        .POST("/batch",
-                                accept(MediaType.APPLICATION_JSON)
-                                        .and(contentType(MediaType.APPLICATION_JSON)),
-                                bookHandler::createBooksInBatch)
-                        .GET("/count",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::getTotalBookCount)
-                        .GET("/{id}/exists",
-                                accept(MediaType.APPLICATION_JSON),
-                                bookHandler::bookExists)
-                )
+        return RouterFunctions.route()
+                .path("/api/v1/books", builder -> {
+                    builder
+                            .add(searchRoutes(bookHandler))
+                            .add(metaRoutes(bookHandler))
+                            .add(coreRoutes(bookHandler));
+                })
+                .build();
+    }
+
+    private RouterFunction<ServerResponse> coreRoutes(BookHandler handler) {
+        return RouterFunctions.route()
+                .POST("", contentType(MediaType.APPLICATION_JSON), handler::createBook)
+                .GET("", handler::getAllBooks)
+                .GET("/{id}", handler::getBookById)
+                .PUT("/{id}", contentType(MediaType.APPLICATION_JSON), handler::updateBook)
+                .DELETE("/{id}", handler::deleteBook)
+                .build();
+    }
+
+    private RouterFunction<ServerResponse> searchRoutes(BookHandler handler) {
+        return RouterFunctions.route()
+                .GET("/search", handler::searchBooks)
+                .GET("/by-category", handler::getBooksByCategory)
+                .GET("/by-language", handler::getBooksByLanguage)
+                .GET("/by-uploader", handler::getBooksByUploadedBy)
+                .build();
+    }
+
+    private RouterFunction<ServerResponse> metaRoutes(BookHandler handler) {
+        return RouterFunctions.route()
+                .POST("/batch", contentType(MediaType.APPLICATION_JSON), handler::createBooksInBatch)
+                .GET("/count", handler::getTotalBookCount)
+                .GET("/{id}/exists", handler::bookExists)
                 .build();
     }
 }
