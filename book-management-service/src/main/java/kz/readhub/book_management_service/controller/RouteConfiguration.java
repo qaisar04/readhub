@@ -228,7 +228,7 @@ public class RouteConfiguration {
                                     )
                             })),
             @RouterOperation(
-                    path = "/api/v1/books/{id}",
+                    path = "/books/{id}",
                     method = RequestMethod.PUT,
                     operation = @Operation(
                             operationId = "updateBook", summary = "Update book by ID",
@@ -257,7 +257,7 @@ public class RouteConfiguration {
                                     )
                             })),
             @RouterOperation(
-                    path = "/api/v1/books/{id}",
+                    path = "/books/{id}",
                     method = RequestMethod.DELETE,
                     operation = @Operation(
                             operationId = "deleteBook", summary = "Delete book by ID",
