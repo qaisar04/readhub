@@ -19,6 +19,7 @@ public class BookHandler {
 
     private final BookService bookService;
     private final ValidationHandler validationHandler;
+    private final ErrorRequestHandler errorRequestHandler;
 
     public Mono<ServerResponse> createBook(ServerRequest request) {
         return validationHandler.validateBody(request, BookCreateDto.class)
@@ -26,7 +27,7 @@ public class BookHandler {
                 .flatMap(book -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(book))
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getBookById(ServerRequest request) {
@@ -37,7 +38,7 @@ public class BookHandler {
                 .flatMap(book -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(book))
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getAllBooks(ServerRequest request) {
@@ -55,7 +56,7 @@ public class BookHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookService.getAllBooks(page, size, sortBy, sortDirection), Book.class)
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> searchBooks(ServerRequest request) {
@@ -72,7 +73,7 @@ public class BookHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookService.searchBooks(query, page, size), Book.class)
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getBooksByCategory(ServerRequest request) {
@@ -90,7 +91,7 @@ public class BookHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookService.getBooksByCategory(categories, page, size), Book.class)
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getBooksByLanguage(ServerRequest request) {
@@ -107,7 +108,7 @@ public class BookHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookService.getBooksByLanguage(language, page, size), Book.class)
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getBooksByUploadedBy(ServerRequest request) {
@@ -124,7 +125,7 @@ public class BookHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookService.getBooksByUploadedBy(uploadedBy, page, size), Book.class)
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> updateBook(ServerRequest request) {
@@ -136,7 +137,7 @@ public class BookHandler {
                 .flatMap(book -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(book))
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> deleteBook(ServerRequest request) {
@@ -145,7 +146,7 @@ public class BookHandler {
         
         return bookService.deleteBook(id)
                 .then(ServerResponse.noContent().build())
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> getTotalBookCount(ServerRequest request) {
@@ -155,7 +156,7 @@ public class BookHandler {
                 .flatMap(count -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(count))
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
     public Mono<ServerResponse> bookExists(ServerRequest request) {
@@ -166,24 +167,7 @@ public class BookHandler {
                 .flatMap(exists -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(exists))
-                .onErrorResume(this::handleError);
+                .onErrorResume(errorRequestHandler::handleError);
     }
 
-    public Mono<ServerResponse> createBooksInBatch(ServerRequest request) {
-        return request.bodyToFlux(BookCreateDto.class)
-                .collectList()
-                .flatMapMany(bookService::createBooks)
-                .collectList()
-                .flatMap(books -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(books))
-                .onErrorResume(this::handleError);
-    }
-
-    private Mono<ServerResponse> handleError(Throwable throwable) {
-        log.error("Error in handler: {}", throwable.getMessage(), throwable);
-        return ServerResponse.badRequest()
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("Error: " + throwable.getMessage());
-    }
 }

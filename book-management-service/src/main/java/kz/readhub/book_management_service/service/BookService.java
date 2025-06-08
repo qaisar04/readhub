@@ -162,22 +162,6 @@ public class BookService {
         return bookRepository.existsById(id);
     }
 
-    public Flux<Book> createBooks(List<BookCreateDto> createDtos) {
-        log.info("Creating {} books in batch", createDtos.size());
-        
-        return Flux.fromIterable(createDtos)
-                .flatMap(createDto -> validateIsbnUniqueness(createDto.getIsbn())
-                        .then(Mono.fromCallable(() -> mapToNewBook(createDto))))
-                .collectList()
-                .flatMapMany(books -> bookRepository.saveAll(books)
-                        .collectList()
-                        .doOnSuccess(savedBooks -> {
-                            log.info("Successfully created {} books in batch", savedBooks.size());
-                            // TODO: Publish batch creation event
-                        })
-                        .flatMapMany(Flux::fromIterable))
-                .doOnError(error -> log.error("Failed to create books in batch", error));
-    }
 
     private Mono<Void> validateIsbnUniqueness(String isbn) {
         if (isbn == null || isbn.trim().isEmpty()) {

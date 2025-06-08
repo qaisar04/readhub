@@ -1,9 +1,5 @@
 package kz.readhub.book_management_service.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -14,9 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Main application configuration for book management service.
@@ -51,21 +44,6 @@ public class ApplicationConfig {
         MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
         processor.setValidator(validator());
         return processor;
-    }
-
-    @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("ReadHub Book Management API")
-                        .description("Reactive microservice for book CRUD operations with MongoDB and Kafka")
-                        .version("1.0.0")
-                        .contact(new Contact()
-                                .name("ReadHub Team")
-                                .email("support@readhub.kz"))
-                        .license(new License()
-                                .name("MIT License")
-                                .url("https://opensource.org/licenses/MIT")));
     }
 
     @Bean

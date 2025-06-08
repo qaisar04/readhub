@@ -29,6 +29,13 @@ management:
     mongo:
       enabled: true
 
+springdoc:
+  api-docs:
+    path: /swagger-doc/v3/api-docs
+  swagger-ui:
+    default-models-expand-depth: -1
+    path: /swagger-doc/swagger-ui.html
+
 logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level [%X{traceId:-},%X{spanId:-}] %logger{36} - %msg%n"
