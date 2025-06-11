@@ -119,9 +119,9 @@ public class RouteConfiguration {
     public RouterFunction<ServerResponse> searchRoutes(BookHandler handler) {
         return RouterFunctions.route()
                 .POST("/search", contentType(MediaType.APPLICATION_JSON), handler::searchBooks)
-                .POST("/by-category", contentType(MediaType.APPLICATION_JSON), handler::getBooksByCategory)
-                .POST("/by-language", contentType(MediaType.APPLICATION_JSON), handler::getBooksByLanguage)
-                .POST("/by-uploader", contentType(MediaType.APPLICATION_JSON), handler::getBooksByUploadedBy)
+                .POST("/search/by-category", contentType(MediaType.APPLICATION_JSON), handler::getBooksByCategory)
+                .POST("/search/by-language", contentType(MediaType.APPLICATION_JSON), handler::getBooksByLanguage)
+                .POST("/search/by-uploader", contentType(MediaType.APPLICATION_JSON), handler::getBooksByUploadedBy)
                 .build();
     }
 
@@ -279,11 +279,11 @@ public class RouteConfiguration {
     })
     public RouterFunction<ServerResponse> coreRoutes(BookHandler handler) {
         return RouterFunctions.route()
-                .POST("", contentType(MediaType.APPLICATION_JSON), handler::createBook)
-                .GET("", handler::getAllBooks)
-                .GET("/{id}", handler::getBookById)
-                .PUT("/{id}", contentType(MediaType.APPLICATION_JSON), handler::updateBook)
-                .DELETE("/{id}", handler::deleteBook)
+                .POST("/books", contentType(MediaType.APPLICATION_JSON), handler::createBook)
+                .GET("/books", handler::getAllBooks)
+                .GET("/books/{id}", handler::getBookById)
+                .PUT("/books/{id}", contentType(MediaType.APPLICATION_JSON), handler::updateBook)
+                .DELETE("/books/{id}", handler::deleteBook)
                 .build();
     }
 }
